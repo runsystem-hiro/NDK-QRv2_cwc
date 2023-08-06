@@ -19,7 +19,6 @@
             flex-direction: column;
             gap: 10px;
         }
-
         label {
             font-weight: bold;
         }
@@ -27,6 +26,11 @@
         input[type="text"] {
             padding: 5px;
             font-size: 16px;
+        }
+
+        .extx {
+            padding: 5px;
+            font-weight: lighter;
         }
 
         .button-container {
@@ -121,16 +125,16 @@
 <body>
     <h1>URLエンコードフォーム</h1>
     <form onsubmit="handleSubmit(event)">
-        <label for="paramA">場所:</label>
+        <label for="paramA">場所:<span class="extx">FiT24センター南</span></label>
         <input type="text" id="paramA" required placeholder="インドアゴルフ横浜北山田">
 
-        <label for="paramB">セッション名:</label>
+        <label for="paramB">セッション名:<span class="extx">【キッティング中】QRv2 FiT24センター南 出入口</span></label>
         <input type="text" id="paramB" required placeholder="【キッティング中】QRv2 インドアゴルフ横浜北山田 出入口">
 
-        <label for="paramC">部署:</label>
+        <label for="paramC">部署:<span class="extx">192.168.1.10</span></label>
         <input type="text" id="paramC" required placeholder="192.168.1.15">
 
-        <label for="paramD">所有者:</label>
+        <label for="paramD">所有者:<span class="extx">メインゲート,サブゲート,水素水サーバー,タンニング室</span></label>
         <input type="text" id="paramD" required placeholder="メインゲート">
 
         <div>
