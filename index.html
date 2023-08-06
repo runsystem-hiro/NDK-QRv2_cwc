@@ -3,40 +3,29 @@
 <head>
     <title>URLエンコードフォーム</title>
     <style>
+        /* 共通のスタイル */
         body {
             font-family: Arial, sans-serif;
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 20px;
+            margin: 20px;
         }
 
         h1 {
             text-align: center;
         }
 
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        label {
-            font-weight: bold;
-        }
-
-        input[type="text"] {
-            padding: 5px;
-            font-size: 16px;
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
         }
 
         .button-container {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            margin-top: 20px;
         }
 
         .custom-button {
-            padding: 10px 20px;
+            padding: 10px 15px;
             font-size: 14px;
             background-color: #4CAF50;
             color: white;
@@ -57,97 +46,176 @@
         .custom-button.submit-button:hover {
             background-color: #0056b3;
         }
-
-        .result-container {
-            margin-top: 20px;
-            display: flex;
-            align-items: center;
-        }
-
-        .result-container strong {
-            margin-right: 10px;
-        }
-
-        .result-container input[type="text"] {
-            flex: 1;
-            padding: 5px;
+        /* パスワード入力欄 */
+        .password-input {
+            width: 100%;
+            padding: 10px 15px;
             font-size: 16px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+        
+        /* 区切り線 */
+        .divider {
+            width: 100%;
+            height: 1px;
+            background-color: #ccc;
+            margin: 10px 0;
         }
 
-        .clear-button-container {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .clear-button {
-            padding: 8px 15px;
+        /* 入力欄のスタイル */
+        .input-label {
+            display: block;
             font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 10px 15px;
+            font-size: 16px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            margin-bottom: 15px;
+        }
+
+        /* フォームボタンのスタイル */
+        .form-button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .form-button:hover {
+            background-color: #45a049;
+        }
+
+        /* 結果表示コンテナのスタイル */
+        .result-container {
+            width: 100%;
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 4px;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        .encoded-url {
+            width: 100%;
+            font-size: 16px;
+            border: none;
+            background-color: #f0f0f0;
+            margin-top: 5px;
+            padding: 5px;
+            resize: none; /* テキストエリアのリサイズを無効にする */
+            font-family: "Courier New", monospace;
+        }
+
+        /* クリアボタンのスタイル */
+        .clear-button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
             background-color: #f44336;
             color: white;
             border: none;
-            cursor: pointer;
             border-radius: 4px;
+            cursor: pointer;
             transition: background-color 0.3s;
+            margin-top: 20px;
         }
 
         .clear-button:hover {
             background-color: #d32f2f;
         }
-        
-        .fixed-value {
-            font-size: 16px;
-            background-color: #f0f0f0;
-            padding: 5px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-        }
-        
     </style>
 </head>
 <body>
     <h1>URLエンコードフォーム</h1>
-    <form onsubmit="handleSubmit(event)">
-        <label for="paramA">場所:</label>
-        <input type="text" id="paramA" required placeholder="インドアゴルフ横浜北山田">
-
-        <label for="paramB">セッション名:</label>
-        <input type="text" id="paramB" required placeholder="【キッティング中】QRv2 インドアゴルフ横浜北山田 出入口">
-
-        <label for="paramC">部署:</label>
-        <input type="text" id="paramC" required placeholder="192.168.1.15">
-
-        <label for="paramD">所有者:</label>
-        <input type="text" id="paramD" required placeholder="メインゲート">
-
-        <div>
-            <label for="paramE">組織:</label>
-            <div class="fixed-value">快活フロンティア</div>
-        </div>
-
-        <div class="button-container">
-            <input type="submit" value="Submit" class="custom-button submit-button">
-            <button onclick="copyURL()" class="custom-button">Copy URL</button>
-        </div>
-    </form>
-
-    <div class="result-container">
-        <strong>エンコードされたURL:</strong>
-        <input type="text" id="encodedURL" readonly>
+    <div class="container" id="authForm">
+        <input type="password" id="password" required class="password-input" placeholder="パスワード">
+        <button onclick="authenticate()" class="form-button">認証</button>
     </div>
 
-    <div class="clear-button-container">
+    <div class="container" id="mainForm" style="display: none;">
+        <label class="input-label" for="paramA">場所:</label>
+        <input type="text" id="paramA" class="input-field" required placeholder="インドアゴルフ横浜北山田">
+
+        <label class="input-label" for="paramB">セッション名:</label>
+        <input type="text" id="paramB" class="input-field" required placeholder="【キッティング中】QRv2 インドアゴルフ横浜北山田 出入口">
+
+        <label class="input-label" for="paramC">部署:</label>
+        <input type="text" id="paramC" class="input-field" required placeholder="192.168.1.15">
+
+        <label class="input-label" for="paramD">所有者:</label>
+        <input type="text" id="paramD" class="input-field" required placeholder="メインゲート">
+
+        <div class="divider"></div>
+        <div>組織: 快活フロンティア</div>
+
+        <div class="button-container">
+            <input type="submit" value="Submit" class="custom-button submit-button" onclick="handleSubmit(event)">
+            <button onclick="copyURL()" class="custom-button">Copy URL</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="result-container">
+            <strong>エンコードされたURL:</strong>
+            <textarea id="encodedURL" readonly class="encoded-url" rows="4"></textarea>
+        </div>
+
         <button onclick="clearForm()" class="clear-button">Clear Form</button>
     </div>
 
     <script>
+        // 認証用のパスワード（適宜変更してください）
+        const correctPassword = "ndk";
+
+        // 認証ステータス
+        let isAuthenticated = false;
+
+        function authenticate() {
+            const passwordInput = document.getElementById("password");
+            const enteredPassword = passwordInput.value;
+
+            if (enteredPassword === correctPassword) {
+                isAuthenticated = true;
+                showMainForm();
+            } else {
+                alert("パスワードが違います。");
+                passwordInput.value = "";
+            }
+        }
+
+        function showMainForm() {
+            document.getElementById("authForm").style.display = "none";
+            document.getElementById("mainForm").style.display = "block";
+        }
+
         function handleSubmit(event) {
             event.preventDefault();
+
+            if (!isAuthenticated) {
+                alert("パスワードを入力してください。");
+                return;
+            }
 
             const A = document.getElementById("paramA").value;
             const B = document.getElementById("paramB").value;
             const C = document.getElementById("paramC").value;
             const D = document.getElementById("paramD").value;
-            const E = "快活フロンティア";
+            const E = "快活フロンティア";// 固定値を設定
 
             const encodedA = encodeURIComponent(A);
             const encodedB = encodeURIComponent(B);
@@ -171,7 +239,7 @@
         }
 
         function clearForm() {
-            const inputFields = document.querySelectorAll("input[type='text']");
+            const inputFields = document.querySelectorAll(".input-field");
             inputFields.forEach(input => {
                 input.value = "";
             });
@@ -179,6 +247,12 @@
             // エンコードされたURLの表示もクリア
             const encodedURLInput = document.getElementById("encodedURL");
             encodedURLInput.value = "";
+
+            // 認証を解除して認証フォームを再表示
+            isAuthenticated = false;
+            document.getElementById("authForm").style.display = "block";
+            document.getElementById("mainForm").style.display = "none";
+            document.getElementById("password").value = "";
         }
     </script>
 </body>
